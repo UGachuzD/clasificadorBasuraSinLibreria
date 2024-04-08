@@ -2,10 +2,9 @@
   <v-container class="fill-height">
     <v-responsive class="align-center fill-height mx-auto" max-width="1000">
       <v-card color="white" class="elevation-12" max-width="1000" height="500" outlined>
-        <!-- Cambia el color de fondo a blanco -->
         <v-card-title class="text-center">CLASIFICADOR DE RESIDUOS</v-card-title>
         <v-container>
-          <v-row justify="center"> <!-- Centra las columnas horizontalmente -->
+          <v-row justify="center">
             <v-col cols="5">
               <v-card class="pa-6" max-width="600" height="400" outlined>
                 <v-card-title class="text-center">Archivo BMP a clasificar:</v-card-title>
@@ -77,5 +76,4 @@ const limpiarCampos = () => {
 </script>
 
 <style scoped>
-/* Estilos personalizados si es necesario */
 </style>
