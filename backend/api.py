@@ -1,12 +1,12 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS  # Importar la extensión CORS
+from flask_cors import CORS 
 import os
 
 app = Flask(__name__)
-CORS(app)  # Habilitar CORS para todas las rutas en la aplicación
+CORS(app) 
 
-def calcular_proporcion_colores(datosImagen):
-    total_pixeles = len(datosImagen) // 3
+def calcularProporcionesColores(datosImagen):
+    totalPixeles = len(datosImagen) // 3
     rojo = 0
     amarillo = 0
     verde = 0
@@ -26,38 +26,38 @@ def calcular_proporcion_colores(datosImagen):
         elif datosImagen[i] > 70 and datosImagen[i + 1] > 50 and datosImagen[i + 2] > 50:  # Café
             cafe += 1
         
-    prop_rojo = rojo / total_pixeles * 100
-    prop_amarillo = amarillo / total_pixeles * 100
-    prop_verde = verde / total_pixeles * 100
-    prop_negro = negro / total_pixeles * 100
-    prop_cafe = cafe / total_pixeles * 100
+    propRojo = rojo / totalPixeles * 100
+    propAmarillo = amarillo / totalPixeles * 100
+    propVerde = verde / totalPixeles * 100
+    propNegro = negro / totalPixeles * 100
+    propCafe = cafe / totalPixeles * 100
 
-    return prop_rojo, prop_amarillo, prop_verde, prop_negro, prop_cafe
+    return propRojo, propAmarillo, propVerde, propNegro, propCafe
 
-def clasificar_imagen(imagen_path):
-    with open(imagen_path, 'rb') as imagen:
+def clasificarImagen(rutaImagen):
+    with open(rutaImagen, 'rb') as imagen:
         # Leer la cabecera del archivo BMP
         encabezado = imagen.read(54)
 
         # Leer los datos de la imagen
         datosImagen = bytearray(imagen.read())
 
-    prop_rojo, prop_amarillo, prop_verde, prop_negro, prop_cafe = calcular_proporcion_colores(datosImagen)
+    propRojo, propAmarillo, propVerde, propNegro, propCafe = calcularProporcionesColores(datosImagen)
 
     response = {
-        "Proporción de Rojo": f"{prop_rojo:.2f}%",
-        "Proporción de Amarillo": f"{prop_amarillo:.2f}%",
-        "Proporción de Verde": f"{prop_verde:.2f}%",
-        "Proporción de Negro": f"{prop_negro:.2f}%",
-        "Proporción de Café": f"{prop_cafe:.2f}%"
+        "Proporción de Rojo": f"{propRojo:.2f}%",
+        "Proporción de Amarillo": f"{propAmarillo:.2f}%",
+        "Proporción de Verde": f"{propVerde:.2f}%",
+        "Proporción de Negro": f"{propNegro:.2f}%",
+        "Proporción de Café": f"{propCafe:.2f}%"
     }
 
     # Clasificar la imagen
-    if prop_rojo + prop_amarillo + prop_verde > 25:
+    if propRojo + propAmarillo + propVerde > 25:
         response["Clasificación"] = "La imagen es orgánica"
-    elif prop_negro > 20:
+    elif propNegro > 20:
         response["Clasificación"] = "La imagen es de manejo especial o inorgánica no reciclable"
-    elif prop_cafe > 20:
+    elif propCafe > 20:
         response["Clasificación"] = "La imagen es inorgánica reciclable"
     else:
         response["Clasificación"] = "La imagen no puede ser clasificada con certeza"
@@ -76,7 +76,7 @@ def clasificar():
     filename = 'uploaded_image.bmp'
     file.save(filename)
 
-    result = clasificar_imagen(filename)
+    result = clasificarImagen(filename)
     os.remove(filename)
 
     return jsonify(result)
