@@ -46,13 +46,12 @@
             <v-carousel show-arrows="hover">
               <v-carousel-item
                 :src="selectedImage"
-                cover
+                
                 max-width="100%"
                 max-height="80%"
               ></v-carousel-item>
               <v-carousel-item
                 :src="'http://127.0.0.1:5000/imagen-segmentada/' + segmentedImage"
-                cover
                 max-width="100%"
                 max-height="80%"
               ></v-carousel-item>

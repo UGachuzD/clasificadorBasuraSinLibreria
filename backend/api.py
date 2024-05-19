@@ -91,8 +91,10 @@ def clasificarImagen(rutaImagen):
         "Proporción de Café": f"{propCafe:.2f}%"
     }
 
+    print(response)
+
     # Clasificar la imagen
-    if propRojo + propAmarillo + propVerde > 25:
+    if propRojo + propAmarillo + propVerde > 15:
         response["Clasificación"] = "La imagen es orgánica"
         # Segmentar la imagen en rojo, amarillo y verde
         colores_segmentar = [
@@ -147,6 +149,7 @@ def clasificar():
 def obtener_imagen_segmentada(nombre_archivo):
     # Devuelve la imagen segmentada solicitada al frontend
     return send_file("imagenSegmentadaColores.bmp", mimetype='image/bmp')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
